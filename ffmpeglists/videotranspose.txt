@@ -1,0 +1,4 @@
+0^90 Counter Clockwise Vertical Flip
+1^90 Clockwise
+2^90 Counter Clockwise
+3^90 Clockwise Vertical Flip

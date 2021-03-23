@@ -1,0 +1,8 @@
+64kbps
+96kbps
+112kbps
+128kbps
+160kbps
+192kbps
+256kbps
+320kbps

@@ -1,0 +1,6 @@
+rgbashift=rh=%amount%
+rgbashift=rv=%amount%
+rgbashift=bh=%amount%
+rgbashift=bv=%amount%
+rgbashift=gh=%amount%
+rgbashift=gv=%amount%
