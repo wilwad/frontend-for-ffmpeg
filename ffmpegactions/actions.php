@@ -1,9 +1,5 @@
 <?php
 /*
- *
- * Notes
- * %dir% is ffmpegresults/, %random% is a random file number generated internally, %format% is the extension parsed from uploaded file (always used when 'source' is selected) 
- *
  * ffmpeg actions and their required parameters
  *
  * cmd      = your ffmpeg command definition with key value pair in %key% %value% format
@@ -390,7 +386,7 @@ $actions =
                            'maxlength'=>0),
                    ]           
         ] ,
-
+  
       '6'=>['title'=>'video - draw text',
         'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=text='%text%': fontfile=/path/to/font.ttf: fontsize=%size:font%:fontcolor=%color:font%:shadowcolor=%color:shadow%:shadowx=%shadow:x%:shadowy=%shadow:y%\" -c:a copy \"%dir%/%random%.%format%\"",
         'fonts'=>"fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
@@ -887,6 +883,57 @@ $actions =
                     ]        
       ], 
 
+
+
+    '55'=>['title'=>'video - green screen', 
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenvideo%\" -filter_complex '[1:v]colorkey=color=%color%:similarity=0.85:blend=0.0[ckout];[0:v][ckout]overlay[out]' -map '[out]' \"%dir%/%random%.%format%\"",
+    'notes'=>"#00FF00 is the pure green found in green screens.",
+    'controls'=>[
+                  array('name'=>'filename',
+                        'caption'=>'Primary Video',
+                        'small'=>'',
+                        'placeholder'=>'',
+                        'type'=>'file',
+                        'source'=>'',
+                        'accept'=>'video/*',
+                        'required'=>true,
+                        'callback'=>'',
+                        'maxlength'=>0),
+                  array('name'=>'greenscreenvideo',
+                        'caption'=>'Green Screen Video',
+                        'small'=>'',
+                        'placeholder'=>'',
+                        'type'=>'file',
+                        'source'=>'',
+                        'accept'=>'video/*',
+                        'required'=>true,
+                        'accept'=>'*.zip',
+                        'default'=>'',
+                        'callback'=>'',
+                        'maxlength'=>0),
+                  array('name'=>'color',
+                        'caption'=>'Transparent Color',
+                        'small'=>'',
+                        'placeholder'=>'',
+                        'type'=>'text',
+                        'source'=>'',
+                        'required'=>true,
+                        'default'=>'00FF00',
+                        'callback'=>'',
+                        'maxlength'=>0),                        
+                  array('name'=>'format',
+                        'caption'=>'Output Format',
+                        'small'=>'',
+                        'placeholder'=>'',
+                        'type'=>'select',
+                        'source'=>'ffmpeglists/formatsvideo.txt',
+                        'required'=>true,
+                        'default'=>0,
+                        'callback'=>'',
+                        'maxlength'=>0),                                                                                                                                             
+                ]    
+  ],    
+  
       '15'=>['title'=>'video - to black and white', 
       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf hue=s=0 \"%dir%/%random%.%format%\"",
       'controls'=>[
@@ -2434,54 +2481,6 @@ $actions =
                   ]    
     ],
 
-    '55'=>['title'=>'video - inside green text', 
-    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenvideo%\" -filter_complex '[1:v]colorkey=color=%color%:similarity=0.85:blend=0.0[ckout];[0:v][ckout]overlay[out]' -map '[out]' \"%dir%/%random%.%format%\"",
-    'notes'=>"#00FF00 is the pure green found in green screens.",
-    'controls'=>[
-                  array('name'=>'filename',
-                        'caption'=>'Video',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'file',
-                        'source'=>'',
-                        'accept'=>'video/*',
-                        'required'=>true,
-                        'callback'=>'',
-                        'maxlength'=>0),
-                  array('name'=>'greenscreenvideo',
-                        'caption'=>'Green Screen Video',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'file',
-                        'source'=>'',
-                        'accept'=>'video/*',
-                        'required'=>true,
-                        'accept'=>'*.zip',
-                        'default'=>'',
-                        'callback'=>'',
-                        'maxlength'=>0),
-                  array('name'=>'color',
-                        'caption'=>'Transparent Color',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'text',
-                        'source'=>'',
-                        'required'=>true,
-                        'default'=>'00FF00',
-                        'callback'=>'',
-                        'maxlength'=>0),                        
-                  array('name'=>'format',
-                        'caption'=>'Output Format',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'select',
-                        'source'=>'ffmpeglists/formatsvideo.txt',
-                        'required'=>true,
-                        'default'=>0,
-                        'callback'=>'',
-                        'maxlength'=>0),                                                                                                                                             
-                ]    
-  ],    
       '56'=>['title'=>'audio - extract from video',
       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vn \"%dir%/%random%.%format%\"",
       'controls'=>[
@@ -3325,6 +3324,7 @@ $actions =
 
        '77'=>['title'=>'image - to transparent PNG', 
        'cmd'=>"ffmpeg -i \"%filename%\" -vf colorkey='%color%' \"%dir%/%random%.png\"",
+	   'notes'=>"#00FF00 is the pure green found in green screens.",       
        'controls'=>[
                      array('name'=>'filename',
                            'caption'=>'Image',
@@ -3343,7 +3343,7 @@ $actions =
                            'type'=>'text',
                            'source'=>'',
                            'required'=>true,
-                           'default'=>'#cc9471',
+                           'default'=>'#00FF00',
                            'callback'=>'',
                            'maxlength'=>0),                                                                                                     
                    ]    
