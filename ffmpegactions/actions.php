@@ -1,7 +1,5 @@
 <?php
 /*
- * statement: ffmpeg is the swiss-army knife or video/audio editing from commandline. But the seem to be no frontend for the dizzying number of commands
- * problem: how can we define parameters to create valid commands for ffmpeg in HTML
  *
  * Notes
  * %dir% is ffmpegresults/, %random% is a random file number generated internally, %format% is the extension parsed from uploaded file (always used when 'source' is selected) 
