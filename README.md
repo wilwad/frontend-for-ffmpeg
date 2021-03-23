@@ -23,16 +23,17 @@ controls : html input controls to be rendered on the form <BR >
               
 all other keys are to be ignored/removed (e.g. small, placeholder, callback) - this control definition is borrowed from one of my old projects <BR >
  
-here's an ffmpeg command to create a video slideshow from images <BR > <BR >
- 
+here's an ffmpeg command to create a video slideshow from images <BR >
+``` 
 ffmpeg -r 1/5 -i img%03d.png -c:v libx264 -vf fps=25 -pix_fmt yuv420p out.mp4 <BR > <BR >
- 
-becomes: <BR >
+```
+becomes: 
+ ```
 ffmpeg -r %rate% -i %pattern% -c:v %lib% -vf fps=%fps% %random%.%format% <BR >
- 
+``` 
 Well this one is complicated because it uses sequentially named-images, which we need to zip since we can only upload 1 file <BR >
 so our controls definition looks like this: <BR >
- 
+ ```
  'title'   =>"Create a video slideshow from images", <BR >
    'cmd'     =>"ffmpeg -r %rate% -i %pattern% -c:v %lib% -vf fps=%fps% %random%.%format%", <BR >
  'controls'=>[ <BR >
@@ -42,4 +43,4 @@ so our controls definition looks like this: <BR >
  				  ['name'=>'lib',     'caption'=>'Library', 'type'=>'select', 'source'=>'ffmpeglists/libs.txt','default'=>'libx264', 'required'=>true],  <BR >
  				  ['name'=>'fps',     'caption'=>'Frames per second','default'=>'25', 'type'=>'number', 'required'=>true], 				   <BR >
              ] <BR >
-
+```
