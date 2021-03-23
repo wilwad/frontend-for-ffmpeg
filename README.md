@@ -46,3 +46,4 @@ so our controls definition looks like this: <BR >
  				  ['name'=>'fps',     'caption'=>'Frames per second','default'=>'25', 'type'=>'number', 'required'=>true], 
              ];
 ```
+Please Note: I have not had time to test all the commands, but will get to it. And of course there are lots more to be added am sure!
