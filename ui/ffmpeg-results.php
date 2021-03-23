@@ -99,7 +99,7 @@
                                         </div>";
                     }
                     
-					$data .= "<div class='col-md-6 col-xs-12'>$object</div>";
+					$data .= "<div class='col-md-6 col-lg-12 col-xs-12'>$object</div>";
 					
 					$idx++;
 				}
