@@ -1,6 +1,6 @@
 <?php
 /*
- * statement: ffmpeg is the swiss-army knife or video/audio editing from commandline. But there seem to be no unified frontend for the dizzying number of commands
+ * statement: ffmpeg is the swiss-army knife for video/audio editing from commandline. But there seem to be no unified frontend for the dizzying number of commands
  * problem: how can we define parameters to create valid commands for ffmpeg in HTML
  *
  * Notes
