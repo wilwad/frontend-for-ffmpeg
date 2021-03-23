@@ -1,4 +1,4 @@
- Statement: ffmpeg is the swiss-army knife or video/audio editing from commandline. But the seem to be no frontend for the dizzying number of commands
+ Statement: ffmpeg is the swiss-army knife or video/audio editing from commandline. But the seem to be no frontend for the dizzying number of commands <BR >
  Problem: how can we define parameters to create valid commands for ffmpeg in HTML
  
  Notes:
