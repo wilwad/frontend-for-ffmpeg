@@ -1,5 +1,6 @@
  Statement: ffmpeg is the swiss-army knife or video/audio editing from commandline. But the seem to be no frontend for the dizzying number of commands <BR >
  Problem: how can we define parameters to create valid commands for ffmpeg in HTML <BR >
+ ![frontend for ffmpeg](https://github.com/wilwad/frontend-for-ffmpeg/blob/main/ffmpeg.png?raw=true)
  
  Notes: <BR >
  %dir% is "ffmpegresults/"  <BR >
