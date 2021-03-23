@@ -1,0 +1,2 @@
+"[0:v]crop=%w%:%h%:%x%:%y%,boxblur=%power%[fg]; [0:v][fg]overlay=%x%:%y%[v]" -map "[v]"^BLUR ONLY WxH
+"[0:v]boxblur=%power%[bg];[0:v]crop=%w%:%h%:%x%:%y%[fg];[bg][fg]overlay=%x%:%y%" -map 0:v^BLUR ALL NOT WxH

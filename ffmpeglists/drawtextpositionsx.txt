@@ -1,0 +1,9 @@
+x=%padding%: y=%padding%^TOP LEFT
+x=(w-(text_w+%padding%))/2: y=%padding%^TOP CENTER
+x=(w-(text_w+%padding%)): y=%padding%^TOP RIGHT
+x=(w-(text_w+%padding%))/2: y=(h-(text_h+%padding%))/2^CENTER
+x=%padding%: y=(h-(text_h+%padding%))/2^CENTER LEFT
+x=(w-(text_w+%padding%)): y=(h-(text_h+%padding%))/2^CENTER RIGHT
+x=%padding%: y=(h-(text_h+%padding%))^BOTTOM LEFT
+x=(w-(text_w+%padding%))/2: y=(h-(text_h+%padding%))^BOTTOM CENTER
+x=(w-(text_w+%padding%)): y=(h-(text_h+%padding%))^BOTTOM RIGHT
