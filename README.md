@@ -1,7 +1,7 @@
 # FFMPEG is the swiss-army knife for video/audio editing from commandline. 
-But there is no unified frontend for the dizzying number of command available. In fact, the internet is littered with one-liners on how to do things with this program.
+But there is no unified frontend for the dizzying number of command available. In fact, the internet is littered with one-liners on how to do things with this program. <BR >
+How do we define parameter inputs to create valid commands for ffmpeg in HTML and execute from PHP
 ![frontend for ffmpeg](https://github.com/wilwad/frontend-for-ffmpeg/blob/main/ffmpeg2.png?raw=true)
-How do we define parameters to create valid commands for ffmpeg in HTML <BR >
  
 Notes:
 ```
