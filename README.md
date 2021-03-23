@@ -8,8 +8,8 @@
  
  ffmpeg actions and their required parameters
  
- cmd      = your ffmpeg command definition with key value pair in %key% %value% format
- controls = html input controls to be rendered on the form
+ cmd      : your ffmpeg command definition with key value pair in %key% %value% format
+ controls : html input controls to be rendered on the form
             control.name : unique name for the control, it will be replaced in cmd with matching %name%
             control.caption : label for form control
             control.type : file | text | number | select 
