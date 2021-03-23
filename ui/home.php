@@ -192,9 +192,12 @@ require_once('ffmpegactions/actions.php');
     $errors .= "<p class='alert alert-info'><b>Command</b><BR> $cmd</p>";
     if ($cmd){
       $output = null;
-      $ret = null;
-      exec("$cmd -y", $output, $ret);
-      $errors .= ($ret == 0) ? "<p class='alert alert-success'>ffmpeg success: <a href='?view=ffmpeg-results&dir=$dir1&action=$action' target='_blank'><u>Open results</u></a></p>" : "<p class='alert alert-danger'>ffmpeg failed</p>";
+      $code   = null;
+      exec("$cmd -y", $output, $code);
+      $output = implode(" ", $output);
+      $output = trim($output);
+      if (!strlen($output)) $output = "Run the generated command in terminal to view the ffmpeg error";
+      $errors .= ($code == 0) ? "<p class='alert alert-success'>ffmpeg success: <a href='?view=ffmpeg-results&dir=$dir1&action=$action' target='_blank'><u>Open results</u></a></p>" : "<p class='alert alert-danger'>ffmpeg failed: $output</p>";
     }
   } // if ($extra)
 ?>
@@ -273,7 +276,8 @@ require_once('ffmpegactions/actions.php');
 					case 'email':
 					case 'text':
 					case 'number':
-          case 'file':
+		            case 'file':
+		            case 'color':
 						$input = "<input type='$type' $accept $required class='form-control' id='$name' name='$name' maxlength='$maxlength' value='$val'>";
 						break;
 						
@@ -306,12 +310,7 @@ require_once('ffmpegactions/actions.php');
 
 							$input = "<select class='form-control' id='$name' name='$name'>
 									$options
-									</select>
-									<script>
-									$(document).ready(function(){
-										$('#$name').select2();
-									});
-									</script>";
+									</select>";
 						}
 						else {
 							$input = "<p class='alert alert-warning'>Unable to locate file $filename</p>";
