@@ -3529,7 +3529,7 @@ $actions =
         ] ,
 
     '52'=>['title'=>'video - add audio stream',
-        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%audio\" -vf -codec copy -shortest \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%audio%\" -codec copy -shortest \"%dir%/%random%.%format%\"",
         'notes'=>"Note: source video file must have audio stream removed beforehand",
         'controls'=>[
                      array('name'=>'filename',
