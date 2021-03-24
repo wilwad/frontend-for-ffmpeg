@@ -1,2 +1,2 @@
-scale="%w%:trunc(ow/a/2)*2"
-scale="trunc(oh*a/2)*2:%h%"
+scale="%w%:trunc(ow/a/2)*2"^Fixed Width
+scale="trunc(oh*a/2)*2:%h%"^Fixed Height
