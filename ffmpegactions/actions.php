@@ -4308,7 +4308,7 @@ $actions =
        ],
 
        '70'=>['title'=>'audio - generate sine wave tone', 
-       'cmd'=>"ffmpeg -hide_banner -f lavfi -i \"sine=frequency=%frequency%:duration=%duration%\" \"%dir%/%random%.%format%\"",
+       'cmd'=>"ffmpeg -hide_banner -f lavfi -i \"sine=frequency=%frequency%:duration=%duration%\" \"%dir%/sine.%format%\"",
        'controls'=>[
          array('name'=>'frequency',
                'caption'=>'Frequency',
