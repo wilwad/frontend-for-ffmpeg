@@ -56,7 +56,7 @@ require_once('ffmpegactions/actions.php');
       $files = glob("$dir0/*"); // get all file names
       foreach($files as $file){ // iterate files
         if(is_file($file)) {
-          unlink($file); // delete file
+          @ unlink($file); // delete file
         }
       }      
     }    
@@ -68,7 +68,7 @@ require_once('ffmpegactions/actions.php');
       $files = glob("$dir1/*"); // get all file names
       foreach($files as $file){ // iterate files
         if(is_file($file)) {
-          unlink($file); // delete file
+          @ unlink($file); // delete file
         }
       }      
     }
@@ -207,9 +207,41 @@ require_once('ffmpegactions/actions.php');
       <div class="section-title align-left">
           <h3><?php 
               $total = sizeof($actions);
-              echo "$total Available Actions"; ?>
+              echo "$total Available Actions"; ?>								         
           </h3>
-          <div class='well'>
+          <div class='row row-no-shadow bg-teal'>
+           <div class='col-md-8'></div>
+           <div class='col-md-4'>
+								 <div class='form-group'>
+								 	<input type='text' class='form-control filter' placeholder='Type something to filter the results below' name='term' id='term'>
+								 	<i class='glyphicon glyphicon-search form-control-feedback'></i>
+								 </div>
+								
+								<script>
+									window.addEventListener('load', ()=>{								
+										var term = document.querySelector('input[name=\"term\"]');
+										term.addEventListener('keyup', ()=>{
+								
+								document.querySelectorAll('div#actions a.badge').forEach((tr,idx)=>{
+								if (term.value.trim().length == 0){
+								    $(tr).show();
+								} else {
+								   let val = tr.innerText.toLowerCase();
+								   if (val.indexOf(term.value.toLowerCase()) > -1){
+								       $(tr).show()
+								   } else {
+								       $(tr).hide();
+								   }
+								}
+								
+								});
+								}, false);
+								
+								},false);
+								</script>           
+           </div>
+          </div>
+          <div class='well' id='actions'>
           <?php
             foreach ($actions as $key=>$details){
               $title = $details['title'];
