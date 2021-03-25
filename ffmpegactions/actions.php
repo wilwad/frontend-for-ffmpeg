@@ -43,7 +43,7 @@
 $actions = 
 [
     '101'=>['title'=>'video - change frame rate', 
-        'cmd'=>"ffmpeg -i \"%filename%\" -filter:v fps=fps=%fps% -c:v %lib% -preset fast -crf %crf% \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -filter:v fps=fps=%fps% -c:v %lib% -preset fast -crf %crf% \"%dir%/framerate-%random%.%format%\"",
         'notes'=>"Examples for frame rate (FPS): 15, 25, 30, 60",
         'controls'=>[
                       array('name'=>'filename',
@@ -100,7 +100,7 @@ $actions =
       ],  
       
       '1'=>['title'=>'video - from 1 image looped', 
-      'cmd'=>"ffmpeg -loop 1 -i \"%filename%\" -t \"%t%\" -t %t% -c:v %lib% -pix_fmt yuv420p \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -loop 1 -i \"%filename%\" -t \"%t%\" -t %t% -c:v %lib% -pix_fmt yuv420p \"%dir%/1imagelooped-%random%.%format%\"",
       'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Image',
@@ -147,7 +147,7 @@ $actions =
     ],  
 
       '2'=>['title'=>'video - from 1 image looped with audio', 
-      'cmd'=>"ffmpeg -loop 1 -i \"%filename%\" -i \"%audio%\" -framerate 1 -c:v %lib% -preset veryslow -crf %crf% -c:a copy -shortest \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -loop 1 -i \"%filename%\" -i \"%audio%\" -framerate 1 -c:v %lib% -preset veryslow -crf %crf% -c:a copy -shortest \"%dir%/1imageloopedaudio-%random%.%format%\"",
       'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Image',
@@ -203,7 +203,7 @@ $actions =
                   ]    
     ],        
       '3'=>['title'=>'video - from seq-numbered images', 
-      'cmd'=>"ffmpeg -f image2 -framerate %fr% -i \"ffmpeguploads/%pattern%\" -c:v %lib% -crf %crf% -preset medium -r %fr% -pix_fmt yuv420p -y \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -f image2 -framerate %fr% -i \"ffmpeguploads/%pattern%\" -c:v %lib% -crf %crf% -preset medium -r %fr% -pix_fmt yuv420p -y \"%dir%/seqnumbers-%random%.%format%\"",
       'notes'=>"Pattern 'frame%04d.jpg' equals 'frame0001.jpg, frame0002.jpg, frame0003.jpg, etc'",
       'controls'=>[
                     array('name'=>'filename',
@@ -270,7 +270,7 @@ $actions =
     ],  
     
      '301'=>['title'=>'video - from non seq-numbered images', 
-      'cmd'=>"ffmpeg -f image2 -framerate %fr% -pattern_type glob  -i \"ffmpeguploads/%pattern%\" -c:v %lib% -crf %crf% -preset medium -r %fr% -pix_fmt yuv420p -y \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -f image2 -framerate %fr% -pattern_type glob  -i \"ffmpeguploads/%pattern%\" -c:v %lib% -crf %crf% -preset medium -r %fr% -pix_fmt yuv420p -y \"%dir%/nonseqnumbers-%random%.%format%\"",
       'notes'=>"For example, you might have input-00.png, input-10.png, and input-30.png",
       'controls'=>[
                     array('name'=>'filename',
@@ -337,7 +337,7 @@ $actions =
     ], 
 
       '311'=>['title'=>'video - slideshow from seq-numbered images', 
-      'cmd'=>"ffmpeg -r %d% -i \"ffmpeguploads/%pattern%\" -c:v %lib% -r %fr% -pix_fmt yuv420p -y \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -r %d% -i \"ffmpeguploads/%pattern%\" -c:v %lib% -r %fr% -pix_fmt yuv420p -y \"%dir%/slideshowseqnumbers-%random%.%format%\"",
       'notes'=>"Pattern 'frame%04d.jpg' equals 'frame0001.jpg, frame0002.jpg, frame0003.jpg. Duration: 1/5 is 5 seconds'",
       'controls'=>[
                     array('name'=>'filename',
@@ -404,7 +404,7 @@ $actions =
     ],  
     
     '53'=>['title'=>'video - video from list of videos', 
-        'cmd'=>"ffmpeg -f concat -i \"%list%\" -vcodec copy -acodec copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -f concat -i \"%list%\" -vcodec copy -acodec copy \"%dir%/videofromlist-%random%.%format%\"",
         'notes'=>"Sample video file list <BR>file 'file1.mp4'<BR>file 'file4.mp4'<BR>file 'file10.mp4'",
         'controls'=>[
                       array('name'=>'filename',
@@ -441,7 +441,7 @@ $actions =
       ],  
               
     '4'=>['title'=>'video - zoom in video from 1 image', 
-         'cmd'=>"ffmpeg -i \"%filename%\" -framerate %fr% -loop 1 -filter_complex \"[0:v]zoompan=z='min(max(zoom,pzoom)+0.015,1.5)':d=1.5:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[v]\" -map '[v]' -t %t% \"%dir%/%random%.%format%\"",
+         'cmd'=>"ffmpeg -i \"%filename%\" -framerate %fr% -loop 1 -filter_complex \"[0:v]zoompan=z='min(max(zoom,pzoom)+0.015,1.5)':d=1.5:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[v]\" -map '[v]' -t %t% \"%dir%/zoom1image-%random%.%format%\"",
          'controls'=>[
                        array('name'=>'filename',
                              'caption'=>'Image',
@@ -497,7 +497,7 @@ $actions =
        ],       
   
      '600'=>['title'=>'video - draw text',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=text='%text%':box=1: boxborderw=%box-borderwidth%:boxcolor=%box-color%@%box-opacity%: %position%:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=text='%text%':box=1: boxborderw=%box-borderwidth%:boxcolor=%box-color%@%box-opacity%: %position%:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/drawtexttext-%random%.%format%\"",
         'notes'=>"Where input=color: The value must be a hexadecimal (hex) value: 3 double digit numbers, starting with a # sign (like #FF8040). Color keywords (like \"red\" or \"blue\") are not allowed. Opacity: 0 is transparent, 1.0 fully opaque.",
         'controls'=>[
                      array('name'=>'filename',
@@ -644,7 +644,7 @@ $actions =
         ] ,
  
      '601'=>['title'=>'video - draw time stamp',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=text='timestamp: %{pts \: %tsaccuracy%}':box=1: boxborderw=%box-borderwidth%:boxcolor=%box-color%@%box-opacity%: %position%:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=text='timestamp: %{pts \: %tsaccuracy%}':box=1: boxborderw=%box-borderwidth%:boxcolor=%box-color%@%box-opacity%: %position%:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/timestamp-%random%.%format%\"",
         'notes'=>"Where input=color: The value must be a hexadecimal (hex) value: 3 double digit numbers, starting with a # sign (like #FF8040). Color keywords (like \"red\" or \"blue\") are not allowed. Opacity: 0 is transparent, 1.0 fully opaque.",
         'controls'=>[
                      array('name'=>'filename',
@@ -791,7 +791,7 @@ $actions =
         ] ,
 
      '603'=>['title'=>'video - draw frame number',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=text='%{frame_num}':start_number=1:box=1: boxborderw=%box-borderwidth%:boxcolor=%box-color%@%box-opacity%: %position%:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=text='%{frame_num}':start_number=1:box=1: boxborderw=%box-borderwidth%:boxcolor=%box-color%@%box-opacity%: %position%:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/framenumbers-%random%.%format%\"",
         'notes'=>"Where input=color: The value must be a hexadecimal (hex) value: 3 double digit numbers, starting with a # sign (like #FF8040). Color keywords (like \"red\" or \"blue\") are not allowed. Opacity: 0 is transparent, 1.0 fully opaque.",
         'controls'=>[
                      array('name'=>'filename',
@@ -928,7 +928,7 @@ $actions =
         ] ,
         
      '602'=>['title'=>'video - draw scrolling credits',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=textfile=%creditsfile%:x=%text-x%:y=h-%text-speed%*t:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"drawtext=textfile=%creditsfile%:x=%text-x%:y=h-%text-speed%*t:fontfile=%font-file%: fontsize=%font-size%:fontcolor=%font-color%:shadowcolor=%shadow-color%:shadowx=%shadow-x%:shadowy=%shadow-y%\" -c:a copy \"%dir%/scrollingcredits-%random%.%format%\"",
         'notes'=>"Where input=color: The value must be a hexadecimal (hex) value: 3 double digit numbers, starting with a # sign (like #FF8040). Color keywords (like \"red\" or \"blue\") are not allowed. ",
         'controls'=>[
                      array('name'=>'filename',
@@ -1210,7 +1210,7 @@ $actions =
 
   
   '14'=>['title'=>'video - deshake', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf deshake \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf deshake \"%dir%/deshake-%random%.%format%\"",
         'controls'=>[
                       array('name'=>'filename',
                             'caption'=>'Filename',
@@ -1236,7 +1236,7 @@ $actions =
       ], 
 
    '551'=>['title'=>'video - green screen', 
-    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenvideo%\" -filter_complex '[1:v]colorkey=%chroma%:%similarity%:%opacity%[ckout];[0:v][ckout]overlay=%x%:%y%[out]' -map '[out]' \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenvideo%\" -filter_complex '[1:v]colorkey=%chroma%:%similarity%:%opacity%[ckout];[0:v][ckout]overlay=%x%:%y%[out]' -map '[out]' \"%dir%/greenscreen-%random%.%format%\"",
     'notes'=>"#00FF00 is the pure green found in green screens.",
     'controls'=>[
                   array('name'=>'filename',
@@ -1324,7 +1324,7 @@ $actions =
   ],
   
     '55'=>['title'=>'video - video inside green screen', 
-    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenvideo%\" -filter_complex '[1:v]colorkey=color=%color%:similarity=%color-similarity%:blend=0.0[ckout];[0:v][ckout]overlay[out]' -map '[out]' \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenvideo%\" -filter_complex '[1:v]colorkey=color=%color%:similarity=%color-similarity%:blend=0.0[ckout];[0:v][ckout]overlay[out]' -map '[out]' \"%dir%/videoinsidegreenscreen-%random%.%format%\"",
     'notes'=>"#00FF00 is the pure green found in green screens.",
     'controls'=>[
                   array('name'=>'filename',
@@ -1383,7 +1383,7 @@ $actions =
   ],    
          
   '552'=>['title'=>'video - overlay green screen PNG', 
-    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenpng%\" -filter_complex '[1:v]colorkey=%chroma%:%similarity%:%opacity%[ckout];[0:v][ckout]overlay=%x%:%y%:format=auto[out]' -map '[out]' -map 0:a -c:a copy \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%greenscreenpng%\" -filter_complex '[1:v]colorkey=%chroma%:%similarity%:%opacity%[ckout];[0:v][ckout]overlay=%x%:%y%:format=auto[out]' -map '[out]' -map 0:a -c:a copy \"%dir%/overlaygreenscreenpng-%random%.%format%\"",
     'notes'=>"#00FF00 is the pure green found in green screens.",
     'controls'=>[
                   array('name'=>'filename',
@@ -1471,7 +1471,7 @@ $actions =
   ],       
   
   '553'=>['title'=>'video - overlay centered video atop looping bg video', 
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"movie=%videobg%:loop=200[bg];[in]scale=iw/2:-1,pad=iw+%padding-w%:ih+%padding-h%:%x%:%y%:color=%color-border%[m];[bg][m]overlay=shortest=1:x=(W-w)/2:y=(H-h)/2\" -c:v %lib% \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"movie=%videobg%:loop=200[bg];[in]scale=iw/2:-1,pad=iw+%padding-w%:ih+%padding-h%:%x%:%y%:color=%color-border%[m];[bg][m]overlay=shortest=1:x=(W-w)/2:y=(H-h)/2\" -c:v %lib% \"%dir%/overlaycenteredloopingvideo-%random%.%format%\"",
     'notes'=>"",
     'controls'=>[
                   array('name'=>'filename',
@@ -1569,7 +1569,7 @@ $actions =
   ],  
     
   '554'=>['title'=>'video - extract alpha', 
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf alphaextract,format=yuv420p \"%dir%/%random%.mov\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf alphaextract,format=yuv420p \"%dir%/extractalpha-%random%.mov\"",
     'notes'=>"Source must contain alpha source. black will mean transparent and white will mean opaque",
     'controls'=>[
                   array('name'=>'filename',
@@ -1586,7 +1586,7 @@ $actions =
   ],    
        
       '15'=>['title'=>'video - to black and white', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf hue=s=0 \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf hue=s=0 \"%dir%/blackwhite-%random%.%format%\"",
       'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -1611,7 +1611,7 @@ $actions =
                   ]        
     ], 
       '16'=>['title'=>'video - vignette', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf vignette \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf vignette \"%dir%/vignette-%random%.%format%\"",
       'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -1638,7 +1638,7 @@ $actions =
 
 
     '17'=>['title'=>'video - RGB shift',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf %rgbshiftfunc% \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf %rgbshiftfunc% \"%dir%/rgbshift-%random%.%format%\"",
     'notes'=>"Note: rh=red horizontal, rv=red vertical etc",
     'controls'=>[
                  array('name'=>'filename',
@@ -1685,7 +1685,7 @@ $actions =
     ] ,
 
     '171'=>['title'=>'video - Vintage look',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf curves=vintage \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf curves=vintage \"%dir%/vintagelook-%random%.%format%\"",
     'notes'=>"Note: rh=red horizontal, rv=red vertical etc",
     'controls'=>[
                  array('name'=>'filename',
@@ -1711,7 +1711,7 @@ $actions =
                ]           
     ] ,    
     '18'=>['title'=>'video - Hue/saturation',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"hue=h=%hue%:s=%saturation%\" \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"hue=h=%hue%:s=%saturation%\" \"%dir%/huesaturation-%random%.%format%\"",
     'controls'=>[
                  array('name'=>'filename',
                        'caption'=>'Filename',
@@ -1756,7 +1756,7 @@ $actions =
     ] ,
 
     '19'=>['title'=>'video - Dynamic Hues',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"hue=H=2*PI*t:s=cos(2*PI*t)+%hue%\" \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"hue=H=2*PI*t:s=cos(2*PI*t)+%hue%\" \"%dir%/dynamichues-%random%.%format%\"",
     'controls'=>[
                  array('name'=>'filename',
                        'caption'=>'Filename',
@@ -1791,7 +1791,7 @@ $actions =
     ] ,
 
     '119'=>['title'=>'video - Color Hold',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"colorhold=color=%color%:similarity=%similarity%\" \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"colorhold=color=%color%:similarity=%similarity%\" \"%dir%/colorhold-%random%.%format%\"",
     'notes'=>"Similarity: Indicates the similar color percentage based on color. The larger the number the larger the similarity (1.0 to 0.1 default 0)",
     'controls'=>[
                  array('name'=>'filename',
@@ -1837,7 +1837,7 @@ $actions =
     ] ,
     
       '5'=>['title'=>'video - overlay logo',
-        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%logo%\" -filter_complex \"overlay=x=%logo:x%:y=%logo:y%\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%logo%\" -filter_complex \"overlay=x=%logo:x%:y=%logo:y%\" -c:a copy \"%dir%/overlaylogo-%random%.%format%\"",
         'fonts'=>"fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         'extra note'=>"include :enable='between(t,0,20)' -- The overlay image will be shown from 00:00:00 to 00:00:20",
         'controls'=>[
@@ -1895,7 +1895,7 @@ $actions =
         ] ,
         
     '199'=>['title'=>'video - Overlay video on video',
-    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%video2%\" -filter_complex \"[0]format=rgba,colorchannelmixer=aa=%alpha%[fg];[1][fg]overlay[out]\" -map [out] -pix_fmt yuv420p -c:v %lib% -crf %crf%  \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%video2%\" -filter_complex \"[0]format=rgba,colorchannelmixer=aa=%alpha%[fg];[1][fg]overlay[out]\" -map [out] -pix_fmt yuv420p -c:v %lib% -crf %crf%  \"%dir%/overlayvideo-%random%.%format%\"",
     'controls'=>[
                  array('name'=>'filename',
                        'caption'=>'Video Overlay',
@@ -1959,7 +1959,7 @@ $actions =
     ] ,
     
     '191'=>['title'=>'video - Transition 2 videos',
-    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%video2%\" -filter_complex \"[0][1]xfade=transition=%transition%:duration=%duration%:offset=%offset%\"  \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%video2%\" -filter_complex \"[0][1]xfade=transition=%transition%:duration=%duration%:offset=%offset%\"  \"%dir%/transitions-%random%.%format%\"",
     'notes'=>"xFade available in latest ffmpeg builds only",
     'controls'=>[
                  array('name'=>'filename',
@@ -2024,7 +2024,7 @@ $actions =
     ] ,
     
     '190'=>['title'=>'video - Stack 2 videos',
-    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%video2%\" -filter_complex %stack%=inputs=2:shortest=1 -shortest -pix_fmt yuv420p -c:v %lib% -crf %crf%  \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%video2%\" -filter_complex %stack%=inputs=2:shortest=1 -shortest -pix_fmt yuv420p -c:v %lib% -crf %crf%  \"%dir%/stack-%random%.%format%\"",
     'controls'=>[
                  array('name'=>'filename',
                        'caption'=>'Video 1',
@@ -2089,7 +2089,7 @@ $actions =
     ] ,
           
     '192'=>['title'=>'video - Picture in Picture',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"movie=%video2%, scale=%w%:-1 [vid2]; [in][vid2] overlay=main_w-overlay_w-%padding-w%:main_h-overlay_h-%padding-h%\" -shortest -pix_fmt yuv420p -c:v %lib% -crf %crf%  \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"movie=%video2%, scale=%w%:-1 [vid2]; [in][vid2] overlay=main_w-overlay_w-%padding-w%:main_h-overlay_h-%padding-h%\" -shortest -pix_fmt yuv420p -c:v %lib% -crf %crf%  \"%dir%/pictureinpicture-%random%.%format%\"",
     'controls'=>[
                  array('name'=>'filename',
                        'caption'=>'Video Main',
@@ -2174,7 +2174,7 @@ $actions =
     ] ,
               
    '461'=>['title'=>'video - sharpen',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"unsharp=luma_msize_x=%luma_msize_x%:luma_msize_y=%luma_msize_y%:luma_amount=%luma_amount%\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"unsharp=luma_msize_x=%luma_msize_x%:luma_msize_y=%luma_msize_y%:luma_amount=%luma_amount%\" -c:a copy \"%dir%/sharpen-%random%.%format%\"",
         'notes'=>"Closest to VLC sharpen filter, luma amount: 2.5",
         'controls'=>[
                      array('name'=>'filename',
@@ -2259,7 +2259,7 @@ $actions =
         ] ,
         
       '47'=>['title'=>'video - blur',
-        'cmd'=>"ffmpeg -i \"%filename%\" -filter_complex \"[0:v]boxblur=luma_radius=%luma_radius%:chroma_radius=%chroma_radius%:luma_power=%luma_power%[blurred]\" -map \"[blurred]\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -filter_complex \"[0:v]boxblur=luma_radius=%luma_radius%:chroma_radius=%chroma_radius%:luma_power=%luma_power%[blurred]\" -map \"[blurred]\" -c:a copy \"%dir%/blur-%random%.%format%\"",
         'controls'=>[
                      array('name'=>'filename',
                            'caption'=>'Filename',
@@ -2315,7 +2315,7 @@ $actions =
         ] ,
                     
     '20'=>['title'=>'video - Motion Blur',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf tmix=frames=%frames%:weights=\"%weights%\"  \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -vf tmix=frames=%frames%:weights=\"%weights%\"  \"%dir%/motion-blur%random%.%format%\"",
     'controls'=>[
                  array('name'=>'filename',
                        'caption'=>'Filename',
@@ -2360,7 +2360,7 @@ $actions =
 
   
      '2011'=>['title'=>'video - Box blur',
-        'cmd'=>"ffmpeg -i \"%filename%\" -filter_complex %blurtype% -ss '%ss%' -t '%t%' -map 0:a -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -filter_complex %blurtype% -ss '%ss%' -t '%t%' -map 0:a -c:a copy \"%dir%/boxblur-%random%.%format%\"",
         'notes'=>"Delogo -vf \"delogo=x=1180:y=20:w=100:h=100\"",
         'controls'=>[
                      array('name'=>'filename',
@@ -2467,7 +2467,7 @@ $actions =
         ] ,
         
     '21'=>['title'=>'video - Segment',
-    'cmd'=>"ffmpeg -i \"%filename%\" -c copy -f segment -segment_time \"%t%\" -reset_timestamps 1 \"%dir%/segment_%02d.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -c copy -f segment -segment_time \"%t%\" -reset_timestamps 1 \"%dir%/segment%04d.%format%\"",
     'notes'=>'Create sub video clips from main video clip',
     'controls'=>[
                  array('name'=>'filename',
@@ -2503,7 +2503,7 @@ $actions =
                ]           
     ] ,    
   '22'=>['title'=>'video - fade in/out', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"fade=t=in:st=%in:st%:d=%in:d%,fade=t=out:st=%out:st%:d=%out:d%\" -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"fade=t=in:st=%in:st%:d=%in:d%,fade=t=out:st=%out:st%:d=%out:d%\" -c:a copy \"%dir%/fadeinout-%random%.%format%\"",
         'notes'=>'Use the duration of your video to estimate out:start',
         'controls'=>[
                       array('name'=>'filename',
@@ -2571,7 +2571,7 @@ $actions =
 
 
       '23'=>['title'=>'video - fade in', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"fade=t=in:st=%st%:d=%d%\" -c:a copy \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"fade=t=in:st=%st%:d=%d%\" -c:a copy \"%dir%/fadein-%random%.%format%\"",
       'controls'=>[
                    array('name'=>'filename',
                          'caption'=>'Filename',
@@ -2617,7 +2617,7 @@ $actions =
      ],
 
      '24'=>['title'=>'video - fade out', 
-     'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"fade=t=out:st=%st%:d=%d%\" -c:a copy \"%dir%/%random%.%format%\"",
+     'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"fade=t=out:st=%st%:d=%d%\" -c:a copy \"%dir%/fadeout-%random%.%format%\"",
      'controls'=>[
                   array('name'=>'filename',
                         'caption'=>'Filename',
@@ -2662,8 +2662,8 @@ $actions =
                 ]           
     ],   
        
-     '240'=>['title'=>'video - fade in video and audio', 
-     'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -c:v %lib% -preset ultrafast -crf %crf% -vf \"fade=in:%v-st%:%v-d%\" -af afade=in:%a-st%:%a-d% \"%dir%/%random%.%format%\"",
+     '240'=>['title'=>'video - fade in/out video and audio', 
+     'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -c:v %lib% -preset ultrafast -crf %crf% -vf \"fade=%ftype%:%v-st%:%v-d%\" -af afade=%ftype%:%a-st%:%a-d% \"%dir%/fade%ftype%videoaudio-%random%.%format%\"",
      'controls'=>[
                   array('name'=>'filename',
                         'caption'=>'Filename',
@@ -2675,6 +2675,16 @@ $actions =
                         'required'=>true,
                         'callback'=>'',
                         'maxlength'=>0),    
+				   array('name'=>'ftype',
+						  'caption'=>'Fade Type',
+						  'small'=>'',
+						  'placeholder'=>'',
+						  'type'=>'select',
+						  'source'=>'ffmpeglists/fades.txt',
+						  'required'=>true,
+						  'default'=>'in',
+						  'callback'=>'',
+						  'maxlength'=>0),                         
                   array('name'=>'v-st',
                         'caption'=>'Video Fade Start',
                         'small'=>'',
@@ -2746,9 +2756,9 @@ $actions =
                         'maxlength'=>0),                                
                 ]           
     ],   
-           
+       
   '25'=>['title'=>'video - remove audio', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -an -vcodec copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -an -vcodec copy \"%dir%/audioremoved-%random%.%format%\"",
         'controls'=>[
                       array('name'=>'filename',
                             'caption'=>'Filename',
@@ -2774,7 +2784,7 @@ $actions =
       ],
 
       '26'=>['title'=>'video - add audio', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -i \"%audio%\" -shortest \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -i \"%audio%\" -shortest \"%dir%/audioadded-%random%.%format%\"",
       'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -2810,7 +2820,7 @@ $actions =
     ],
 
     '27'=>['title'=>'video - replace audio', 
-    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -i \"%audio%\" -map 0:0 -map 1:0 -c:v copy -c:a aac -b:a %ab% -shortest \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -i \"%audio%\" -map 0:0 -map 1:0 -c:v copy -c:a aac -b:a %ab% -shortest \"%dir%/audioreplaced-%random%.%format%\"",
     'controls'=>[
                   array('name'=>'filename',
                         'caption'=>'Video',
@@ -2855,7 +2865,7 @@ $actions =
                 ]         
   ],
   '28'=>['title'=>'video - speed increase / decrease', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"setpts=%pts%*PTS\" \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"setpts=%pts%*PTS\" \"%dir%/speedincdec%random%.%format%\"",
         'notes'=>"PTS fast motion: 0.5, slow motion: 2.0",
         'controls'=>[
           array('name'=>'filename',
@@ -2892,7 +2902,7 @@ $actions =
       ],
 
   '29'=>['title'=>'video - add subtitles', 
-      'cmd'=>"fmpeg -i hide_banner -i \"%filename%\" -i \"%subtitles%\" -map 0 -map 1 -c copy -c:v %lib% -crf %crf% -preset veryfast \"%dir%/%random%.%format%\"",
+      'cmd'=>"fmpeg -i hide_banner -i \"%filename%\" -i \"%subtitles%\" -map 0 -map 1 -c copy -c:v %lib% -crf %crf% -preset veryfast \"%dir%/addsubtitles-%random%.%format%\"",
       'controls'=>[
         array('name'=>'filename',
               'caption'=>'Filename',
@@ -2947,7 +2957,7 @@ $actions =
       ],
 
   '30'=>['title'=>'video - extract subtitles', 
-    'cmd'=>"fmpeg -i hide_banner -i \"%filename%\" \"%dir%/%random%.srt\"",
+    'cmd'=>"fmpeg -i hide_banner -i \"%filename%\" \"%dir%/subtitles-%random%.srt\"",
     'controls'=>[
       array('name'=>'filename',
             'caption'=>'Filename',
@@ -2963,7 +2973,7 @@ $actions =
   ],    
 
   '31'=>['title'=>'video - change resolution', 
-        'cmd'=>"ffmpeg -i %filename% -filter:v scale=%w%:%h% -c:a copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i %filename% -filter:v scale=%w%:%h% -c:a copy \"%dir%/resolutionchanged-%random%.%format%\"",
         'controls'=>[
           array('name'=>'filename',
                 'caption'=>'Filename',
@@ -3009,7 +3019,7 @@ $actions =
       ],
 
   '32'=>['title'=>'video - compress by crf', 
-      'cmd'=>"ffmpeg -i %filename% -c:v %lib% -preset veryslow -crf %crf% \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -i %filename% -c:v %lib% -preset veryslow -crf %crf% \"%dir%/compressxcrf-%random%.%format%\"",
       'notes'=>"-crf lowers the average bitrate and retains quality. -crf around 23 is recommended but feel free to experiment, the lower the number the higher the bitrate.",
       'controls'=>[
         array('name'=>'filename',
@@ -3056,7 +3066,7 @@ $actions =
     ],
 
     '33'=>['title'=>'video - compress by width and crf', 
-    'cmd'=>"ffmpeg -i %filename% -vf scale=%w%:-1 -c:v %lib% -preset veryslow -crf %crf% \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -i %filename% -vf scale=%w%:-1 -c:v %lib% -preset veryslow -crf %crf% \"%dir%/compresswxhxcrf-%random%.%format%\"",
     'notes'=>"-crf lowers the average bitrate and retains quality. -crf around 23 is recommended but feel free to experiment, the lower the number the higher the bitrate.",
     'controls'=>[
       array('name'=>'filename',
@@ -3112,7 +3122,7 @@ $actions =
     ]           
   ],
   '34'=>['title'=>'video - trim', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss %ss% -t %t% -vcodec copy -acodec copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss %ss% -t %t% -vcodec copy -acodec copy \"%dir%/trim-%random%.%format%\"",
         'controls'=>[
                       array('name'=>'filename',
                             'caption'=>'Filename',
@@ -3158,7 +3168,7 @@ $actions =
       ],
 
   '35'=>['title'=>'video - crop', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -filter:v \"crop=%w%:%h%:%x%:%y%\"  \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -filter:v \"crop=%w%:%h%:%x%:%y%\"  \"%dir%/crop-%random%.%format%\"",
         'controls'=>[
           array('name'=>'filename',
                 'caption'=>'Filename',
@@ -3224,7 +3234,7 @@ $actions =
       ],
 
   '36'=>['title'=>'video - copy without audio', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vn -acodec copy \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vn -acodec copy \"%dir%/noaudio-%random%.%format%\"",
         'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -3250,7 +3260,7 @@ $actions =
       ],
 
   '37'=>['title'=>'video - change aspect ratio', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -aspect \"%aspect%\" \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -aspect \"%aspect%\" \"%dir%/aspectratiochanged-%random%.%format%\"",
       'controls'=>[
                   array('name'=>'filename',
                         'caption'=>'Filename',
@@ -3285,7 +3295,7 @@ $actions =
     ],
 
     '38'=>['title'=>'video - change volume', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vcodec copy -af \"volume=%db%\" -async 1 \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vcodec copy -af \"volume=%db%\" -async 1 \"%dir%/volumechanged-%random%.%format%\"",
         'notes'=>"Notes: negative (e.g. -3dB) to decrease volume",
         'controls'=>[
                      array('name'=>'filename',
@@ -3322,7 +3332,7 @@ $actions =
        ],
 
     '39'=>['title'=>'video - negate colors', 
-       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf negate -c:a copy \"%dir%/%random%.%format%\"",
+       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf negate -c:a copy \"%dir%/negatecolors-%random%.%format%\"",
        'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -3349,7 +3359,7 @@ $actions =
 
 
     '40'=>['title'=>'video - flip', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf %flip% -c:a copy \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf %flip% -c:a copy \"%dir%/flipped-%random%.%format%\"",
       'controls'=>[
                    array('name'=>'filename',
                          'caption'=>'Filename',
@@ -3375,7 +3385,7 @@ $actions =
      ],
 
     '41'=>['title'=>'video - rotate by 90degree angle', 
-       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"transpose=%deg%\" -c:a copy \"%dir%/%random%.%format%\"",
+       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"transpose=%deg%\" -c:a copy \"%dir%/rotated90deg-%random%.%format%\"",
        'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -3411,7 +3421,7 @@ $actions =
       ], 
       
    '42'=>['title'=>'video - rotate arbitrarily', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"rotate=%deg%*PI/180\" -c:a copy \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf \"rotate=%deg%*PI/180\" -c:a copy \"%dir%/rotatedarbitrary-%random%.%format%\"",
       'notes'=>"The angle is specified in radians; positive is clockwise and negative is counterclockwise. Degrees are multiplied by PI/180 to convert to radians.",
       'controls'=>[
                    array('name'=>'filename',
@@ -3448,7 +3458,7 @@ $actions =
      ], 
 
     '43'=>['title'=>'video - reverse video', 
-       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf reverse \"%dir%/%random%.%format%\"",
+       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf reverse \"%dir%/reversedvideo-%random%.%format%\"",
        'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -3474,7 +3484,7 @@ $actions =
       ],
 
   '44'=>['title'=>'video - reverse video and audio', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf reverse -af areverse \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vf reverse -af areverse \"%dir%/reversedaudiovideo-%random%.%format%\"",
       'controls'=>[
                    array('name'=>'filename',
                          'caption'=>'Filename',
@@ -3500,7 +3510,7 @@ $actions =
      ],
 
     '45'=>['title'=>'video - convert high quality',
-        'cmd'=>"ffmpeg -i \"%filename%\" -qscale 0 \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -qscale 0 \"%dir%/convertHQ-%random%.%format%\"",
         'controls'=>[
                      array('name'=>'filename',
                            'caption'=>'Filename',
@@ -3526,7 +3536,7 @@ $actions =
         ] ,
 
     '48'=>['title'=>'video - scale half',
-        'cmd'=>"ffmpeg -i \"%filename%\" -filter:v scale=w=iw/2:h=ih/2 \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -filter:v scale=w=iw/2:h=ih/2 \"%dir%/scalehalf-%random%.%format%\"",
         'notes'=>"Warning: file WxH must be divisible by 2",
         'controls'=>[
                      array('name'=>'filename',
@@ -3553,7 +3563,7 @@ $actions =
         ] ,
 
         '49'=>['title'=>'video - scale double',
-        'cmd'=>"ffmpeg -i \"%filename%\" -filter:v scale=w=2*iw:h=2*ih \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -filter:v scale=w=2*iw:h=2*ih \"%dir%/scaledouble-%random%.%format%\"",
         'notes'=>"",
         'controls'=>[
                      array('name'=>'filename',
@@ -3580,7 +3590,7 @@ $actions =
         ] ,
 
       '50'=>['title'=>'video - scale not divisible by 2',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf %scalefunc% \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf %scalefunc% \"%dir%/scalenotdivisibleby2-%random%.%format%\"",
         'notes'=>"Note: Supply either fixed width or height then select corresponding scaling function",
         'controls'=>[
                      array('name'=>'filename',
@@ -3637,7 +3647,7 @@ $actions =
         ] ,
 
       '51'=>['title'=>'video - brightness',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"eq=brightness=%brightness%:saturation=%saturation%\" -c:a copy  \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"eq=brightness=%brightness%:saturation=%saturation%\" -c:a copy  \"%dir%/brightness-%random%.%format%\"",
         'controls'=>[
                      array('name'=>'filename',
                            'caption'=>'Filename',
@@ -3683,7 +3693,7 @@ $actions =
         ] ,
 
     '52'=>['title'=>'video - add audio stream',
-        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%audio%\" -codec copy -shortest \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%audio%\" -codec copy -shortest \"%dir%/audiostreamadded%random%.%format%\"",
         'notes'=>"Note: source video file must have audio stream removed beforehand",
         'controls'=>[
                      array('name'=>'filename',
@@ -3719,8 +3729,82 @@ $actions =
                    ]           
         ],
 
+    '751'=>['title'=>'Video - audio stereo to mono', 
+    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -map_channel %c% -c:v copy  \"%dir%/mono-%random%.%format%\"",
+    'notes'=>"Any value above 1.0 will increase the tempo and any value below 1.0 will decrease the tempo. E.g. 1.50=increase, 0.5=decrease (by 50%)",
+    'controls'=>[
+                       array('name'=>'filename',
+                             'caption'=>'Video',
+                             'small'=>'',
+                             'placeholder'=>'',
+                             'type'=>'file',
+                             'source'=>'',
+                             'required'=>true,
+                             'accept'=>'video/*',
+                             'callback'=>'',
+                             'maxlength'=>0),    
+                      array('name'=>'c',
+                            'caption'=>'Channel Src',
+                            'small'=>'',
+                            'placeholder'=>'',
+                            'type'=>'select',
+                            'source'=>'ffmpeglists/audiochannels.txt',
+                            'required'=>true,
+                            'default'=>'0.1.0',
+                            'callback'=>'',
+                            'maxlength'=>0),        
+                      array('name'=>'format',
+                            'caption'=>'Output Format',
+                            'small'=>'',
+                            'placeholder'=>'',
+                            'type'=>'select',
+                            'source'=>'ffmpeglists/formatsvideo.txt',
+                            'required'=>true,
+                            'default'=>'png',
+                            'callback'=>'',
+                            'maxlength'=>0),                                                                                                  
+                 ]          
+  ],
+  
+   '752'=>['title'=>'Video - audio mono to stereo', 
+    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -map_channel %c% -map_channel %c% -c:v copy \"%dir%/stereo-%random%.%format%\"",
+    'notes'=>"Any value above 1.0 will increase the tempo and any value below 1.0 will decrease the tempo. E.g. 1.50=increase, 0.5=decrease (by 50%)",
+    'controls'=>[
+                       array('name'=>'filename',
+                             'caption'=>'Video',
+                             'small'=>'',
+                             'placeholder'=>'',
+                             'type'=>'file',
+                             'source'=>'',
+                             'required'=>true,
+                             'accept'=>'video/*',
+                             'callback'=>'',
+                             'maxlength'=>0),    
+                      array('name'=>'c',
+                            'caption'=>'Channel Src',
+                            'small'=>'',
+                            'placeholder'=>'',
+                            'type'=>'select',
+                            'source'=>'ffmpeglists/audiochannels.txt',
+                            'required'=>true,
+                            'default'=>'0.1.0',
+                            'callback'=>'',
+                            'maxlength'=>0),        
+                      array('name'=>'format',
+                            'caption'=>'Output Format',
+                            'small'=>'',
+                            'placeholder'=>'',
+                            'type'=>'select',
+                            'source'=>'ffmpeglists/formatsvideo.txt',
+                            'required'=>true,
+                            'default'=>'png',
+                            'callback'=>'',
+                            'maxlength'=>0),                                                                                                  
+                 ]          
+  ],
+  
       '54'=>['title'=>'video - to gif (uncompressed)', 
-      'cmd'=>"ffmpeg -i \"%filename%\" \"%dir%/%random%.gif\"",
+      'cmd'=>"ffmpeg -i \"%filename%\" \"%dir%/uncompressed-%random%.gif\"",
       'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Video',
@@ -3736,7 +3820,7 @@ $actions =
     ],
 
     '541'=>['title'=>'video - fix underexposed', 
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf eq=gamma=%gamma%:saturation=%saturation% -c:v %lib% -preset fast -crf %crf% \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf eq=gamma=%gamma%:saturation=%saturation% -c:v %lib% -preset fast -crf %crf% \"%dir%/fixunderexposed-%random%.%format%\"",
         'notes'=>"",
         'controls'=>[
                       array('name'=>'filename',
@@ -3803,7 +3887,7 @@ $actions =
       ],  
       
    '546'=>['title'=>'video - palette from video', 
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf palettegen \"%dir%/%random%.png\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf palettegen \"%dir%/palettefromvideo-%random%.png\"",
         'notes'=>"",
         'controls'=>[
                       array('name'=>'filename',
@@ -3820,7 +3904,7 @@ $actions =
       ],  
           
     '548'=>['title'=>'video - palette apply to video', 
-        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%palette%\" -filter_complex \"paletteuse\" -c:v %lib% -preset fast -crf %crf% -pix_fmt yuv420p \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%palette%\" -filter_complex \"paletteuse\" -c:v %lib% -preset fast -crf %crf% -pix_fmt yuv420p \"%dir%/paletteapplied-%random%.%format%\"",
         'notes'=>"",
         'controls'=>[
                       array('name'=>'filename',
@@ -3876,7 +3960,7 @@ $actions =
                     ]    
       ], 
     '549'=>['title'=>'video - palette apply to gif', 
-        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%palette%\" -ss %ss% -t %t% -filter_complex \"fps=%fps%[video];[video][1:v]paletteuse\" \"%dir%/%random%.gif\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -i \"%palette%\" -ss %ss% -t %t% -filter_complex \"fps=%fps%[video];[video][1:v]paletteuse\" \"%dir%/paletteapplied-%random%.gif\"",
         'notes'=>"GIF format only supports 256 colors. This demands to generate a custom color palette first to improve the results.",
         'controls'=>[
                       array('name'=>'filename',
@@ -3933,7 +4017,7 @@ $actions =
       ], 
                         
    '560'=>['title'=>'video - generate video pattern',
-    'cmd'=>"ffmpeg -f lavfi -i %ptype%=duration=%d%:size=%w%x%h%:rate=%r%  \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -f lavfi -i %ptype%=duration=%d%:size=%w%x%h%:rate=%r%  \"%dir%/videopattern-%random%.%format%\"",
     'notes'=>'Create sub video clips from main video clip',
     'controls'=>[ 
 				   array('name'=>'ptype',
@@ -4001,7 +4085,7 @@ $actions =
     ] ,
                             
       '56'=>['title'=>'audio - extract from video',
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vn \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vn \"%dir%/extractedfromvideo-%random%.%format%\"",
       'controls'=>[
                    array('name'=>'filename',
                          'caption'=>'Video Filename',
@@ -4028,7 +4112,7 @@ $actions =
       ],
 
       '57'=>['title'=>'audio - extract from video (with -ss, -t)',
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss %ss% -t %t% -vn \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss %ss% -t %t% -vn \"%dir%/extractedfromvideoHHMMSS%random%.%format%\"",
       'controls'=>[
                    array('name'=>'filename',
                          'caption'=>'Video Filename',
@@ -4075,7 +4159,7 @@ $actions =
       ],
 
   '58'=>['title'=>'audio - speed up/slow down', 
-         'cmd'=>"ffmpeg -i %filename% -filter:a \"atempo=%atempo%\" -vn \"%dir%/%random%.%format%\"",
+         'cmd'=>"ffmpeg -i %filename% -filter:a \"atempo=%atempo%\" -vn \"%dir%/speedchanged-%random%.%format%\"",
          'notes'=>"You can use any value between 0.5 and 2.0 for audio.",
          'controls'=>[
                       array('name'=>'filename',
@@ -4101,8 +4185,8 @@ $actions =
                     ]           
         ],
 
-        '59'=>['title'=>'audio - fade in/out', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"afade=t=in:st=%in:st%:d=%in:d%,afade=t=out:st=%out:st%:d=%out:d%\" \"%dir%/%random%.%format%\"",
+        '59'=>['title'=>'audio - fade in then out', 
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"afade=t=in:st=%in:st%:d=%in:d%,afade=t=out:st=%out:st%:d=%out:d%\" \"%dir%/fadeinthenout-%random%.%format%\"",
         'notes'=>'Use the duration of your video to estimate out:start',
         'controls'=>[
                       array('name'=>'filename',
@@ -4168,19 +4252,29 @@ $actions =
                     ]        
       ], 
 
-      '60'=>['title'=>'audio - fade in', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"afade=t=in:st=%st%:d=%d%\" \"%dir%/%random%.%format%\"",
+      '60'=>['title'=>'audio - fade in/out', 
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"afade=t=%ftype%:st=%st%:d=%d%\" \"%dir%/fade%ftype%-%random%.%format%\"",
       'controls'=>[
                    array('name'=>'filename',
                          'caption'=>'Filename',
                          'small'=>'',
                          'placeholder'=>'',
                          'type'=>'file',
-                         'accept'=>'video/*',
+                         'accept'=>'audio/*',
                          'source'=>'',
                          'required'=>true,
                          'callback'=>'',
                          'maxlength'=>0),    
+                  array('name'=>'ftype',
+                         'caption'=>'Fade Type',
+                         'small'=>'',
+                         'placeholder'=>'',
+                         'type'=>'select',
+                         'source'=>'ffmpeglists/fades.txt',
+                         'required'=>true,
+                         'default'=>'in',
+                         'callback'=>'',
+                         'maxlength'=>0),                           
                    array('name'=>'st',
                          'caption'=>'Start',
                          'small'=>'',
@@ -4214,54 +4308,8 @@ $actions =
                  ]           
      ],
 
-     '61'=>['title'=>'audio - fade out', 
-     'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"afade=t=out:st=%st%:d=%d%\" \"%dir%/%random%.%format%\"",
-     'controls'=>[
-                  array('name'=>'filename',
-                        'caption'=>'Filename',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'file',
-                        'accept'=>'audio/*',
-                        'source'=>'',
-                        'required'=>true,
-                        'callback'=>'',
-                        'maxlength'=>0),    
-                  array('name'=>'st',
-                        'caption'=>'Start',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'number',
-                        'source'=>'',
-                        'required'=>true,
-                        'default'=>0,
-                        'callback'=>'',
-                        'maxlength'=>0),   
-                  array('name'=>'d',
-                        'caption'=>'Duration',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'number',
-                        'source'=>'',
-                        'required'=>true,
-                        'default'=>5,
-                        'callback'=>'',
-                        'maxlength'=>0),
-                  array('name'=>'format',
-                        'caption'=>'Output Format',
-                        'small'=>'',
-                        'placeholder'=>'',
-                        'type'=>'select',
-                        'source'=>'ffmpeglists/formatsaudio.txt',
-                        'required'=>true,
-                        'default'=>0,
-                        'callback'=>'',
-                        'maxlength'=>0),                                
-                ]           
-    ],   
-
     '62'=>['title'=>'audio - reverse', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af areverse \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af areverse \"%dir%/reversed-%random%.%format%\"",
         'controls'=>[
                      array('name'=>'filename',
                            'caption'=>'Filename',
@@ -4287,7 +4335,7 @@ $actions =
        ],
 
   '63'=>['title'=>'audio - change volume', 
-         'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af 'volume=%db%' \"%dir%/%random%.%format%\"",
+         'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af 'volume=%db%' \"%dir%/volumechanged-%random%.%format%\"",
          'notes'=>"Increase or decrease by dB. Where 0.5=half, 2.5=increase or use -30dB / 30dB",
          'controls'=>[
                       array('name'=>'filename',
@@ -4314,7 +4362,7 @@ $actions =
         ],
 
   '64'=>['title'=>'audio - trim', 
-          'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss %start% -t %time% \"%dir%/%random%.%format%\"",
+          'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss %start% -t %time% \"%dir%/trimmed-%random%.%format%\"",
           'controls'=>[
                         array('name'=>'filename',
                               'caption'=>'Filename',
@@ -4350,7 +4398,7 @@ $actions =
         ],
 
     '65'=>['title'=>'audio - transcode', 
-        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vn -ar 44100 -ac 2 -ab %ab% -f \"%dir%/%random%.%format%\"",
+        'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -vn -ar 44100 -ac 2 -ab %ab% -f \"%dir%/transcode-%random%.%format%\"",
         'controls'=>[
                       array('name'=>'filename',
                             'caption'=>'Filename',
@@ -4406,7 +4454,7 @@ $actions =
       ],
 
   '66'=>['title'=>'audio - compress', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ab %ab% \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ab %ab% \"%dir%/compressed-%random%.%format%\"",
       'controls'=>[
                     array('name'=>'filename',
                           'caption'=>'Filename',
@@ -4442,7 +4490,7 @@ $actions =
     ],
 
 '67'=>['title'=>'audio - normalize', 
-    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -filter:a loudnorm \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -filter:a loudnorm \"%dir%/normalized-%random%.%format%\"",
     'controls'=>[
                   array('name'=>'filename',
                         'caption'=>'Filename',
@@ -4468,7 +4516,7 @@ $actions =
   ],
 
   '68'=>['title'=>'audio - extract poster image',
-         'cmd'=>"ffmpeg -i \"%filename%\" -c:v copy \"%dir%/%random%.%format%\"",
+         'cmd'=>"ffmpeg -i \"%filename%\" -c:v copy \"%dir%/posterimage-%random%.%format%\"",
          'controls'=>[
                       array('name'=>'filename',
                             'caption'=>'Filename',
@@ -4494,7 +4542,7 @@ $actions =
          ],
 
          '69'=>['title'=>'audio - add poster image', 
-         'cmd'=>"ffmpeg -hide_banner -i  \"%filename%\" -i \"%posterimage%\" -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title='Album cover' -metadata:s:v comment='Cover (front)' \"%dir%/%random%.%format%\"",
+         'cmd'=>"ffmpeg -hide_banner -i  \"%filename%\" -i \"%posterimage%\" -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title='Album cover' -metadata:s:v comment='Cover (front)' \"%dir%/posterimageadded-%random%.%format%\"",
          'controls'=>[
            array('name'=>'filename',
                  'caption'=>'Filename',
@@ -4530,7 +4578,7 @@ $actions =
        ],
 
        '70'=>['title'=>'audio - generate sine wave tone', 
-       'cmd'=>"ffmpeg -hide_banner -f lavfi -i \"sine=frequency=%frequency%:duration=%duration%\" \"%dir%/sine.%format%\"",
+       'cmd'=>"ffmpeg -hide_banner -f lavfi -i \"sine=frequency=%frequency%:duration=%duration%\" \"%dir%/sinewave-%random%.%format%\"",
        'controls'=>[
          array('name'=>'frequency',
                'caption'=>'Frequency',
@@ -4569,7 +4617,7 @@ $actions =
      ],
 
      '72'=>['title'=>'audio - add echo', 
-     'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"aecho=in_gain=%in_gain%:out_gain=%out_gain%:delays=%delays%:decays=%decays%\" \"%dir%/%random%.%format%\"",
+     'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"aecho=in_gain=%in_gain%:out_gain=%out_gain%:delays=%delays%:decays=%decays%\" \"%dir%/echo-%random%.%format%\"",
      'controls'=>[
                         array('name'=>'filename',
                               'caption'=>'Filename',
@@ -4640,7 +4688,7 @@ $actions =
    ],
 
    '73'=>['title'=>'audio - add echo (multiple delays/decays)', 
-   'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"aecho=in_gain=%in_gain%:out_gain=%out_gain%:delays=%delays1%|%delays2%:decays=%decays1%|%decays2%\" \"%dir%/%random%.%format%\"",
+   'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"aecho=in_gain=%in_gain%:out_gain=%out_gain%:delays=%delays1%|%delays2%:decays=%decays1%|%decays2%\" \"%dir%/echomultiple-%random%.%format%\"",
    'notes'=>"The number of delays and decays must equal the same amount so if there are 2 delay numbers, there has to be 2 decay numbers.",
    'controls'=>[
                   array('name'=>'filename',
@@ -4734,7 +4782,7 @@ $actions =
       ],
 
       '74'=>['title'=>'audio - change pitch', 
-      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"asetrate=44100*%sr%,atempo=1.5,aresample=44100\" \"%dir%/%random%.%format%\"",
+      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"asetrate=44100*%sr%,atempo=1.5,aresample=44100\" \"%dir%/pitchchanged-%random%.%format%\"",
       'notes'=>"Sample rates: 0.5 (equals 50%), 0.7 (equals 70%) etc",
       'controls'=>[
                          array('name'=>'filename',
@@ -4762,7 +4810,7 @@ $actions =
     ],
 
     '75'=>['title'=>'audio - change tempo', 
-    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"atempo=%tempo%\" \"%dir%/%random%.%format%\"",
+    'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"atempo=%tempo%\" \"%dir%/tempochanged-%random%.%format%\"",
     'notes'=>"Any value above 1.0 will increase the tempo and any value below 1.0 will decrease the tempo. E.g. 1.50=increase, 0.5=decrease (by 50%)",
     'controls'=>[
                        array('name'=>'filename',
@@ -4788,7 +4836,7 @@ $actions =
                              'maxlength'=>0),                                                                        
                  ]          
   ],
-
+    
   '76'=>['title'=>'image - extract 1 image from video', 
         'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss \"%ss%\" -vframes 1 -f image2 \"%dir%/%random%.%format%\"",
         'controls'=>[
@@ -4826,7 +4874,7 @@ $actions =
       ],
 
        '77'=>['title'=>'image - to transparent PNG', 
-       'cmd'=>"ffmpeg -i \"%filename%\" -vf colorkey='%color%' \"%dir%/%random%.png\"",
+       'cmd'=>"ffmpeg -i \"%filename%\" -vf colorkey='%color%' \"%dir%/transparentPNG-%random%.png\"",
 	   'notes'=>"#00FF00 is the pure green found in green screens.",       
        'controls'=>[
                      array('name'=>'filename',
@@ -4853,7 +4901,7 @@ $actions =
      ],   
 
   '78'=>['title'=>'general - convert file',
-         'cmd'=>"ffmpeg -i \"%filename%\" -qscale 0 \"%dir%/%random%.%format%\"",
+         'cmd'=>"ffmpeg -i \"%filename%\" -qscale 0 \"%dir%/converted-%random%.%format%\"",
          'notes'=>"-qscale 0 will preserve quality at risk of larger file",
          'controls'=>[
                       array('name'=>'filename',
@@ -4879,7 +4927,7 @@ $actions =
          ],
 
       '71'=>['title'=>'general - draw waveform', 
-       'cmd'=>"ffmpeg -i \"%filename%\" -lavfi showwavespic=split_channels=1:s=%w%x%h% \"%dir%/%random%.%format%\"",
+       'cmd'=>"ffmpeg -i \"%filename%\" -lavfi showwavespic=split_channels=1:s=%w%x%h% \"%dir%/waveform-%random%.%format%\"",
        'notes'=>"Draw audio wave form for a video or audio file",
        'controls'=>[
                      array('name'=>'filename',
