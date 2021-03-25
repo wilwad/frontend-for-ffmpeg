@@ -326,7 +326,7 @@ require_once('ffmpegactions/actions.php');
 								if ($handle) {
 									while (($line = fgets($handle)) !== false) {
 										$line = trim($line);
-										$selected = $line == $val ? 'selected' : '';							    	  
+										$selected = strpos($line,$val) > -1 ? 'selected' : '';							    	  
 										if (strlen($line)){
                         if (is_array($source_exclude) && in_array($line, $source_exclude)){
                             continue;
