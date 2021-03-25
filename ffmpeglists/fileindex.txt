@@ -1,0 +1,2 @@
+0^Primary Input
+1^Secondary Input
