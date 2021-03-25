@@ -112,9 +112,6 @@ header('Pragma: no-cache'); */
 <script src='lib/timeago/jquery.timeago.js'></script>
 <script src='lib/fancybox/source/jquery.fancybox.js'></script>
 <!-- script src='lib/lightcarousel/jquery.light-carousel.js' charset='utf-8'></script -->
-<script src='lib/marquee/assets/js/crawler.js'></script>
-<script src="lib/chart.js/2.9.3/Chart.min.js"></script>
-<script src='lib/highlight.js/highlight.pack.js'></script>
 
 <script src='js/script.js'></script>
 
@@ -322,17 +319,6 @@ header('Pragma: no-cache'); */
          </div>
 	    </a>
     </div -->
-    
-    <script type="text/javascript">
-    $(document).ready(()=>{
-        console.log('doc-ready-');
-
-        $('#sidemain').on('click',()=>{
-            console.log('sidemain click');
-            toggle_side_menu();
-        });
-    });
-    </script>
 
  </body>
 </html>
