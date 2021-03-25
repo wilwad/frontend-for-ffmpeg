@@ -403,7 +403,7 @@ $actions =
                   ]    
     ],  
     
-    '53'=>['title'=>'video - video from list of videos', 
+    '53'=>['title'=>'video - concat video from list of videos', 
         'cmd'=>"ffmpeg -f concat -safe 0 -i \"%list%\" -vcodec copy -acodec copy \"%dir%/videofromlist-%random%.%format%\"",
         'notes'=>"Sample video file list <BR>file 'file1.mp4'<BR>file 'file4.mp4'<BR>file 'file10.mp4'",
         'controls'=>[
@@ -2089,7 +2089,8 @@ $actions =
     ] ,
           
     '192'=>['title'=>'video - Picture in Picture',
-    'cmd'=>"ffmpeg -i \"%filename%\" -vf \"movie=%video2%, scale=%w%:-1 [vid2]; [in][vid2] overlay=main_w-overlay_w-%padding-w%:main_h-overlay_h-%padding-h%\" -shortest -pix_fmt yuv420p -c:v %lib% -crf %crf%  \"%dir%/pictureinpicture-%random%.%format%\"",
+    'cmd'=>"ffmpeg -i \"%filename%\" -i \"%video2%\" -filter_complex \"[1:v] scale=%w%:-1 [1v]; [0:v][1v] overlay=x=main_w-overlay_w-%padding-w%:y=main_h-overlay_h-%padding-h% [outv]\" -map \"[outv]\" -map %vi%:a -shortest -pix_fmt yuv420p -c:v %lib% -crf %crf% \"%dir%/pictureinpicture-%random%.%format%\"",
+    'cmdo'=>"ffmpeg -i \"%filename%\" -vf \"movie=%video2%, scale=%w%:-1 [vid2]; [in][vid2] overlay=main_w-overlay_w-%padding-w%:main_h-overlay_h-%padding-h%\" -map 1:a -shortest -pix_fmt yuv420p -c:v %lib% -crf %crf% \"%dir%/pictureinpicture-%random%.%format%\"",
     'controls'=>[
                  array('name'=>'filename',
                        'caption'=>'Video Main',
@@ -2111,6 +2112,16 @@ $actions =
                        'required'=>true,
                        'callback'=>'',
                        'maxlength'=>0),       
+			   array('name'=>'vi',
+				      'caption'=>'Audio Source',
+				      'small'=>'',
+				      'placeholder'=>'',
+				      'type'=>'select',
+				      'source'=>'ffmpeglists/fileindex.txt',
+				      'required'=>true,
+				      'default'=>'0',
+				      'callback'=>'',
+				      'maxlength'=>0), 
 			   array('name'=>'w',
 				      'caption'=>'Width',
 				      'small'=>'',
@@ -2174,7 +2185,7 @@ $actions =
     ] ,
               
    '461'=>['title'=>'video - sharpen',
-        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"unsharp=luma_msize_x=%luma_msize_x%:luma_msize_y=%luma_msize_y%:luma_amount=%luma_amount%\" -c:a copy \"%dir%/sharpen-%random%.%format%\"",
+        'cmd'=>"ffmpeg -i \"%filename%\" -vf \"unsharp=luma_msize_x=%luma_msize_x%:luma_msize_y=%luma_msize_y%:luma_amount=%luma_amount%\" -c:a copy \"%dir%/sharpened-%random%.%format%\"",
         'notes'=>"Closest to VLC sharpen filter, luma amount: 2.5",
         'controls'=>[
                      array('name'=>'filename',
