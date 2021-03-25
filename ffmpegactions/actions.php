@@ -404,7 +404,7 @@ $actions =
     ],  
     
     '53'=>['title'=>'video - video from list of videos', 
-        'cmd'=>"ffmpeg -f concat -i \"%list%\" -vcodec copy -acodec copy \"%dir%/videofromlist-%random%.%format%\"",
+        'cmd'=>"ffmpeg -f concat -safe 0 -i \"%list%\" -vcodec copy -acodec copy \"%dir%/videofromlist-%random%.%format%\"",
         'notes'=>"Sample video file list <BR>file 'file1.mp4'<BR>file 'file4.mp4'<BR>file 'file10.mp4'",
         'controls'=>[
                       array('name'=>'filename',
