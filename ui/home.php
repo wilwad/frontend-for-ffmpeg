@@ -78,7 +78,7 @@ require_once('ffmpegactions/actions.php');
     
     $format = 'error';
     $files = [];
-    $random = '';
+    $random = randomPassword();
 
     // handling file upload
     foreach ($_FILES as $key=>$val){
@@ -88,8 +88,7 @@ require_once('ffmpegactions/actions.php');
 					// generate random filename & set extension							
 					$file = basename($name);
 					$fileextension = get_file_extension($file);
-					$file   = randomPassword();
-          $random = $file;
+					$file = randomPassword();
 					$file   = "$file.$fileextension";
 		
           // dynamic insert
