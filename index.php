@@ -14,7 +14,7 @@ header('Pragma: no-cache'); */
 <?php 
  /*
   * RAD Framework (PHP MySQL Bootstrap)
-  * William Sengdara -- william.sengdara@gmail.com
+  * William Sengdara 
   * Copyright (c) 2017
   *
   * Created:
@@ -186,7 +186,7 @@ header('Pragma: no-cache'); */
     }
     
     $_userid_ = -1;
-    
+    /*
     if (loggedin()){    	
     		$_role_ = $_SESSION["$session_key::user_role"];
     		$_userid_ = $_SESSION["$session_key::user_id"];
@@ -200,7 +200,7 @@ header('Pragma: no-cache'); */
 		   	}
 		   	if ($found) break;
 		   }    	
-    }
+    }*/
 
   echo "<nav class='navbar navbar-inverseX navbar-fixed-top'>
     	  <div class='container'>
