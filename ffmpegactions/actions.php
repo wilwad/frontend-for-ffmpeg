@@ -2500,8 +2500,8 @@ $actions = [
              ]           
         ] ,
         
-['title'=>'video - motion blur', 
-       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -filter_complex \"[0:v]minterpolate=fps=%fps%,tblend=all_mode=average,framestep=%framestep%[out]\" -map \"[out]\"  \"%dir%/waveform-%random%.%format%\"",
+['title'=>'video - Motion blur 2', 
+       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -filter_complex \"[0:v]minterpolate=fps=%fps%,tblend=all_mode=average,framestep=%framestep%[out]\" -map \"[out]\"  \"%dir%/motionblur2-%random%.%format%\"",
        'notes'=>"Apply motion blur to a video file",
        'controls'=>[
                      array('name'=>'filename',
@@ -2531,7 +2531,7 @@ $actions = [
 							  'type'=>'number',
 							  'source'=>'',
 							  'required'=>true,
-							  'default'=>'2',
+							  'default'=>'1',
 							  'callback'=>'',
 							  'maxlength'=>2), 	
                       array('name'=>'format',
@@ -2547,6 +2547,74 @@ $actions = [
                    ]    
      ],
      
+['title'=>'video - Motion blur segment', 
+       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -ss %ss% -t %t% -filter_complex \"[0:v]minterpolate=fps=%fps%,tblend=all_mode=average,framestep=%framestep%[out]\" -map \"[out]\"  \"%dir%/motionblur2-%random%.%format%\"",
+       'notes'=>"Apply motion blur to a video file",
+       'controls'=>[
+                     array('name'=>'filename',
+                           'caption'=>'Video/Audio file',
+                           'small'=>'',
+                           'placeholder'=>'',
+                           'type'=>'file',
+                           'source'=>'',
+                           'required'=>true,
+                           'accept'=>'video/*',
+                           'callback'=>'',
+                           'maxlength'=>0),   
+					   array('name'=>'fps',
+							  'caption'=>'FPS',
+							  'small'=>'',
+							  'placeholder'=>'',
+							  'type'=>'number',
+							  'source'=>'',
+							  'required'=>true,
+							  'default'=>'24',
+							  'callback'=>'',
+							  'maxlength'=>2), 
+					   array('name'=>'framestep',
+							  'caption'=>'Framestep',
+							  'small'=>'',
+							  'placeholder'=>'',
+							  'type'=>'number',
+							  'source'=>'',
+							  'required'=>true,
+							  'default'=>'1',
+							  'callback'=>'',
+							  'maxlength'=>2), 	
+                array('name'=>'ss',
+                      'caption'=>'Start',
+                      'small'=>'',
+                      'placeholder'=>'',
+                      'type'=>'text',
+                      'default'=>'00:00:05',
+                      'source'=>'',
+                      'required'=>true,
+                      'callback'=>'',
+                      'maxlength'=>0),    
+                array('name'=>'t',
+                      'caption'=>'Duration',
+                      'small'=>'',
+                      'placeholder'=>'',
+                      'type'=>'text',
+                      'source'=>'',
+                      'required'=>true,
+                      'default'=>'00:00:30',
+                      'callback'=>'',
+                      'maxlength'=>0),
+                      							  
+                array('name'=>'format',
+                      'caption'=>'Output Format',
+                      'small'=>'',
+                      'placeholder'=>'',
+                      'type'=>'select',
+                      'source'=>'ffmpeglists/formatsvideo.txt',
+                      'required'=>true,
+                      'default'=>'mp4',
+                      'callback'=>'',
+                      'maxlength'=>0),							  			                                                                                                                               
+                   ]    
+     ],
+          
              
 ['title'=>'video - Segment',
     'cmd'=>"ffmpeg -i \"%filename%\" -c copy -f segment -segment_time \"%t%\" -reset_timestamps 1 \"%dir%/segment%04d.%format%\"",
@@ -4012,16 +4080,16 @@ $actions = [
                             'required'=>true,
                             'callback'=>'',
                             'maxlength'=>0),                                                         
-				   array('name'=>'lib',
-						  'caption'=>'Lib',
-						  'small'=>'',
-						  'placeholder'=>'',
-						  'type'=>'select',
-						  'source'=>'ffmpeglists/libs.txt',
-						  'required'=>true,
-						  'default'=>'libx264',
-						  'callback'=>'',
-						  'maxlength'=>0),                                 
+						   array('name'=>'lib',
+								  'caption'=>'Lib',
+								  'small'=>'',
+								  'placeholder'=>'',
+								  'type'=>'select',
+								  'source'=>'ffmpeglists/libs.txt',
+								  'required'=>true,
+								  'default'=>'libx264',
+								  'callback'=>'',
+								  'maxlength'=>0),                                 
                    array('name'=>'crf',
                           'caption'=>'CRF',
                           'small'=>'',
@@ -4270,7 +4338,7 @@ $actions = [
                             'maxlength'=>0),  
                     ]           
         ],
-
+      
        ['title'=>'audio - fade in then out', 
         'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"afade=t=in:st=%in:st%:d=%in:d%,afade=t=out:st=%out:st%:d=%out:d%\" \"%dir%/fadeinthenout-%random%.%format%\"",
         'notes'=>'Use the duration of your video to estimate out:start',
@@ -4338,7 +4406,7 @@ $actions = [
                     ]        
       ], 
 
-      ['title'=>'audio - fade in/out', 
+      ['title'=>'audio - fade in or out', 
       'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"afade=t=%ftype%:st=%st%:d=%d%\" \"%dir%/fade%ftype%-%random%.%format%\"",
       'controls'=>[
                    array('name'=>'filename',
@@ -4393,7 +4461,7 @@ $actions = [
                          'maxlength'=>0),                                
                  ]           
      ],
-
+      
     ['title'=>'audio - reverse', 
         'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af areverse \"%dir%/reversed-%random%.%format%\"",
         'controls'=>[
@@ -4663,6 +4731,44 @@ $actions = [
          ]          
        ],
 
+
+['title'=>'audio - copy from another video <small>Audio comes first, video last since output format is parsed from last file</small>', 
+     'cmd'=>"ffmpeg -hide_banner -vn -i \"%filename0%\" -an -i \"%filename1%\" -shortest -c:a copy -c:v copy \"%dir%/%random%.%format%\"",
+     'controls'=>[
+                        array('name'=>'filename0',
+                              'caption'=>'Audio source',
+                              'small'=>'',
+                              'placeholder'=>'',
+                              'type'=>'file',
+                              'source'=>'',
+                              'required'=>true,
+                              'accept'=>'video/*,audio/*',
+                              'callback'=>'',
+                              'maxlength'=>0),   
+                        array('name'=>'filename1',
+                              'caption'=>'Video to add audio to',
+                              'small'=>'',
+                              'placeholder'=>'',
+                              'type'=>'file',
+                              'source'=>'',
+                              'required'=>true,
+                              'accept'=>'video/*',
+                              'callback'=>'',
+                              'maxlength'=>0),                                                                                                         
+                        array('name'=>'format',
+                              'caption'=>'Output Format',
+                              'small'=>'',
+                              'placeholder'=>'',
+                              'type'=>'select',
+                              //'select_exclude'=>['source'],
+                              'source'=>'ffmpeglists/formatsvideo.txt',
+                              'required'=>true,
+                              'default'=>'mp4',
+                              'callback'=>'',
+                              'maxlength'=>0),                                                   
+                  ]          
+   ],
+   
 ['title'=>'audio - generate sine wave tone', 
        'cmd'=>"ffmpeg -hide_banner -f lavfi -i \"sine=frequency=%fr%:duration=%d%\" \"%dir%/sinewave%fr%Hz-%random%.%format%\"",
        'controls'=>[
@@ -4701,7 +4807,7 @@ $actions = [
                'maxlength'=>0),                                                   
        ]          
      ],
-
+   
      ['title'=>'audio - add echo', 
      'cmd'=>"ffmpeg -hide_banner -i \"%filename%\" -af \"aecho=in_gain=%in_gain%:out_gain=%out_gain%:delays=%delays%:decays=%decays%\" \"%dir%/echo-%random%.%format%\"",
      'controls'=>[
