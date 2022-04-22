@@ -188,7 +188,7 @@ require_once('ffmpegactions/actions.php');
       $cmd = str_replace("%$key%",$val,$cmd);
     }
 
-    $errors .= "<p class='alert alert-info'><b>Command</b><BR> $cmd</p>";
+    $errors .= "<p class='alert alert-info'><b>Command Executed</b><BR> $cmd</p>";
     if ($cmd){
       $output = null;
       $code   = null;
@@ -241,13 +241,13 @@ require_once('ffmpegactions/actions.php');
            </div>
           </div>
           <div class='well' id='actions'>
-          <?php
-            foreach ($actions as $key=>$details){
-              $title = $details['title'];
-              $color = $action == $key ? 'yellow' : 'default';
-              echo "<a href='?view=home&action=$key' class='badge' style='color:$color'>$title</a>&nbsp;";
-            }
-          ?>
+	          <?php
+	            foreach ($actions as $key=>$details){
+	              $title = $details['title'];
+	              $color = $action == $key ? 'yellow' : 'default';
+	              echo "<a href='?view=home&action=$key' class='badge' style='color:$color'>$title</a>&nbsp;";
+	            }
+	          ?>
           </div>
       </div>
 
@@ -258,7 +258,7 @@ require_once('ffmpegactions/actions.php');
 		<?php
 			$idx = 0;
 
-      if ($action){
+      if ($action>=0){
         $act    = @ $actions[$action];
         $fields = @ $act['controls'];
         $title  = @ $act['title'];
@@ -325,13 +325,13 @@ require_once('ffmpegactions/actions.php');
 								if ($handle) {
 									while (($line = fgets($handle)) !== false) {
 										$line = trim($line);
-										$selected = strpos($line,$val) > -1 ? 'selected' : '';							    	  
+										$selected = strpos($line, chr((int)$val)) === false ? '' : 'selected';							    	  
 										if (strlen($line)){
-                        if (is_array($source_exclude) && in_array($line, $source_exclude)){
-                            continue;
-                        }
-												$options .= "<option value='$line' $selected>$line</option>";
-                    }
+			                        if (is_array($source_exclude) && in_array($line, $source_exclude)){
+			                            continue;
+			                        }
+											$options .= "<option value='$line' $selected>$line</option>";
+			                    }
 									}
 								
 									fclose($handle);
