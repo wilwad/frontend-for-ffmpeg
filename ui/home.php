@@ -76,7 +76,7 @@ require_once('ffmpegactions/actions.php');
     if (!is_writable($dir0)) die("<p class='alert alert-danger'>Directory not writable: $dir0</p>");
     if (!is_writable($dir1)) die("<p class='alert alert-danger'>Directory not writable: $dir1</p>");
     
-    $format = 'error';
+    $format = 'error-parsing-file-format';
     $files = [];
     $random = randomPassword();
 
@@ -96,7 +96,8 @@ require_once('ffmpegactions/actions.php');
           // sometimes: posterimage, filename
           
           // set our default format when source selected or when source is only %format%
-          if ($key == 'filename') $format = $fileextension;
+          if ( strpos('filename', $key)>=0) $format = $fileextension;
+          
           $targetfile =  "ffmpeguploads/$file";
           $files[$key] =$targetfile;
 					$uploadOk = 1;
